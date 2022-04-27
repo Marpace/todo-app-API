@@ -177,11 +177,11 @@ app.post("/update-list-order", function(req, res){
 });
 
 
-const port = process.env.port || 5000
+const port = process.env.Port || 5000
 
 
 app.listen(port, function(err){
     if(err) console.log(err);
-    else console.log("Server started on port 5000")
+    else console.log("Server started on port: " + port)
 });
 
