@@ -1,15 +1,15 @@
-const Theme = require("../models/theme");
 
+const db = require("../models/model")
 
 exports.getTheme = (req, res) => {
-    Theme.findOne({_id: "6260ae6b1979b63b0687f1ad"}, function(err, doc){
+    db.Theme.findOne({_id: "6260ae6b1979b63b0687f1ad"}, function(err, doc){
         if(err) console.log(err);
         res.status(200).json(doc);
     })
 };
 
 exports.postSetTheme = (req, res) => {
-    Theme.findOneAndUpdate(
+    db.Theme.findOneAndUpdate(
         {_id: "6260ae6b1979b63b0687f1ad"}, 
         {theme: req.body.theme}, 
         function(err, doc){
