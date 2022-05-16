@@ -1,5 +1,5 @@
 
-const db = require("../models/model")
+const db = require("../models/theme")
 
 exports.getTheme = (req, res) => {
     db.Theme.findOne({_id: "6260ae6b1979b63b0687f1ad"}, function(err, doc){

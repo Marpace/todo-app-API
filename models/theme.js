@@ -9,4 +9,4 @@ const themeSchema = new mongoose.Schema({
     }
 });
 
-module.exports = new mongoose.model('Theme', themeSchema);
+exports.Theme = new mongoose.model('Theme', themeSchema);
