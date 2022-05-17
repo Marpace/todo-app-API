@@ -42,7 +42,7 @@ exports.postCreateList = (req, res) => {
     })
     .then(result => {
         console.log("Created ne wlist on " + newList.dateCreated)
-        res.status(200).json();
+        res.status(200).json({list: newList});
     })
 }
 
@@ -94,8 +94,8 @@ exports.getItems = (req, res) => {
 
 exports.postClearCompleted = (req, res) => {
     const listId = req.body.listId
-    List.findByIdAndUpdate(
-        {listId}, 
+    List.findOneAndUpdate(
+        {_id: listId}, 
         {$pull: {listItems: {status: "completed"}}}
     )
     .then(() => {
