@@ -1,21 +1,28 @@
 
-const db = require("../models/theme")
+const db = require("../models/theme");
+const user = require("../models/user");
 
 exports.getTheme = (req, res) => {
-    db.Theme.findOne({_id: "6260ae6b1979b63b0687f1ad"}, function(err, doc){
-        if(err) console.log(err);
-        res.status(200).json(doc);
+    const userId = req.userId;
+    user.findOne({_id: userId})
+    .then(user => {
+        res.status(200).json({theme: user.theme})
     })
+    .catch(err => console.log(err))
 };
 
 exports.postSetTheme = (req, res) => {
-    db.Theme.findOneAndUpdate(
-        {_id: "6260ae6b1979b63b0687f1ad"}, 
-        {theme: req.body.theme}, 
-        function(err, doc){
-            if(err) console.log(err);           
-            console.log("theme changed to:" + req.body.theme)
-            res.status(200).json();
-        }
-    );
+    const theme = req.body.theme;
+    const userId = req.userId;
+
+    user.findOne({_id: userId})
+    .then(user => {
+        user.theme = theme;
+        return user.save();
+    })
+    .then(() => {
+        console.log("Theme changed to: " + theme)
+        res.status(200).json()
+    })
+    .catch(err => console.log(err));
 };

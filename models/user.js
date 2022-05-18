@@ -11,6 +11,10 @@ const userSchema = new Schema({
         type: String,
         required: true
     },
+    theme: {
+        type: String,
+        required: true
+    },
     lists: [{
         title: {
             type: String,

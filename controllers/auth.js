@@ -18,7 +18,9 @@ exports.register = (req, res, next) => {
     .then(hashedPw => {
       const user = new User({
         email: email,
-        password: hashedPw
+        password: hashedPw,
+        theme: "light",
+        lists: []
       });
       return user.save();
     })
@@ -71,15 +73,30 @@ exports.login = (req, res, next) => {
     });
 };
 
-exports.forgotPassword = (req, res) => {
-  const email = req.body.email
-  User.findOne({email: email})
+
+exports.deleteUser = (req, res) => {
+  const userId = req.userId; 
+  console.log(userId)
+
+  User.deleteOne({_id: userId})
   .then(user => {
-    if(!user) {
-      console.log("Email does not match existing user")
-      res.json({auth: false})
-    }
-    res.status(200).json({auth: true})
+    console.log("User deleted!")
+    res.status(200).json();
   })
   .catch(err => console.log(err))
 }
+
+// exports.forgotPassword = (req, res) => {
+//   const email = req.body.email
+//   User.findOne({email: email})
+//   .then(user => {
+//     if(!user) {
+//       console.log("Email does not match existing user")
+//       res.json({auth: false})
+//     }
+//     res.status(200).json({auth: true})
+//   })
+//   .catch(err => console.log(err))
+// }
+
+
