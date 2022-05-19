@@ -1,5 +1,4 @@
 
-const db = require("../models/theme");
 const user = require("../models/user");
 
 exports.getTheme = (req, res) => {

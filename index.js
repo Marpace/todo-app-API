@@ -6,6 +6,7 @@ const cors = require("cors");
 require("dotenv").config();
 
 const listRoutes = require("./routes/list");
+const listItemRoutes = require("./routes/listItem");
 const themeRoutes = require("./routes/theme");
 const authRoutes = require("./routes/auth");
 
@@ -21,6 +22,7 @@ mongoose
         app.use(cors());
 
         app.use(listRoutes);
+        app.use(listItemRoutes);
         app.use(themeRoutes);
         app.use(authRoutes);
 

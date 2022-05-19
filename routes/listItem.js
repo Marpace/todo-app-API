@@ -2,12 +2,16 @@ const express = require("express");
 
 const listItemController = require("../controllers/listItem");
 
+const isAuth = require("../middleware/is-auth");
+
 const router = express.Router();
 
-router.post("/add-item", listItemController.postAddItem);
+router.post("/get-items", isAuth, listItemController.getItems);
 
-router.post("/delete-item", listItemController.postDeleteItem);
+router.post("/add-item", isAuth, listItemController.postAddItem);
 
-router.post("/check-item", listItemController.postCheckItem);
+router.post("/delete-item", isAuth, listItemController.postDeleteItem);
+
+router.post("/check-item", isAuth, listItemController.postCheckItem);
 
 module.exports = router;

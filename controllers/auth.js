@@ -36,7 +36,7 @@ exports.register = (req, res, next) => {
 };
 
 exports.login = (req, res, next) => {
-  const email = req.body.email;
+  const email = req.body.email.toLowerCase();
   const password = req.body.password;
   let loadedUser;
   User.findOne({ email: email })
