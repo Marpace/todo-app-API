@@ -16,7 +16,6 @@ exports.getSingleList = (req, res) => {
     List.findById(listId)
     .then( list => {
         res.status(200).json({list: list})
-        console.log(`Fetched ${list.title} list`)
     })
     .catch(err => console.log(err))
 }
@@ -41,7 +40,6 @@ exports.postCreateList = (req, res) => {
         return user.save();
     })
     .then(result => {
-        console.log("Created ne wlist on " + newList.dateCreated)
         res.status(200).json({list: newList});
     })
 }
@@ -90,7 +88,6 @@ exports.postUpdateListOrder = (req, res) => {
         {$pull: {listItems: {_id: req.body.itemId}}}
     )
     .then(() => {
-        console.log("Deleted moved item from list");
         List.findByIdAndUpdate(
             listId,
             {$push: {listItems: {
@@ -99,7 +96,6 @@ exports.postUpdateListOrder = (req, res) => {
             }}}
         )
         .then(() => {
-            console.log("Copied moved item to index: " + newIndex);
             console.log(req.body.content)
             res.json();
         })
