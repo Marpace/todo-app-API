@@ -20,6 +20,8 @@ router.post("/clear-completed", isAuth, listController.postClearCompleted);
 
 router.post("/update-list-order", isAuth, listController.postUpdateListOrder);
 
+router.post("/save-list", isAuth, listController.saveList);
+
 
 
 module.exports = router;

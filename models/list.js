@@ -7,20 +7,10 @@ const listSchema = new Schema({
         type: String,
         required: true
     },
-    listItems: [{
-        content: {
-            type: String,
-            required: true
-        },
-        status: {
-            type: String,
-            required: true
-        },
-        _id: {
-            type: Schema.Types.ObjectId,
-            required: true
-        }
-    }],
+    listItems: {
+        type: Array,
+        required: false
+    },
     dateCreated: {
         type: String,
         required: true

@@ -1,5 +1,5 @@
 const User = require("../models/user");
-const { validationResult } = require('express-validator');
+// const { validationResult } = require('express-validator');
 const bcrypt = require('bcrypt');
 const jwt = require("jsonwebtoken")
 
@@ -13,27 +13,28 @@ exports.register = async (req, res) => {
   // }
 
   try {
-    const email = req.body.email;
+    const username = req.body.username;
     const password = req.body.password;
   
-    const checkedUser = await User.find({email: email});
-    if(checkedUser) {
-      throw new Error('Email address already exists')
+    const checkedUser = await User.find({username: username});
+    if(checkedUser.length > 0) {
+      console.log(checkedUser)
+      throw new Error('Username already exists')
     }
     
 
-    // const hashedPw = await bcrypt.hash(password, 12);
+    const hashedPw = await bcrypt.hash(password, 12);
   
-    // const user = new User({
-    //   email: email,
-    //   password: hashedPw,
-    //   theme: "light",
-    //   lists: []
-    // });
+    const user = new User({
+      username: username,
+      password: hashedPw,
+      theme: "light",
+      lists: []
+    });
   
-    // const savedUser = await user.save();
+    const savedUser = await user.save();
   
-    // res.status(201).json({ message: 'User created!', userId: savedUser._id });
+    res.status(201).json({ message: 'User created!', userId: savedUser._id });
     
   } catch (err) {
     console.log(err)
@@ -47,7 +48,7 @@ exports.register = async (req, res) => {
   //   .hash(password, 12)
   //   .then(hashedPw => {
   //     const user = new User({
-  //       email: email,
+  //       username: username,
   //       password: hashedPw,
   //       theme: "light",
   //       lists: []
@@ -68,13 +69,13 @@ exports.register = async (req, res) => {
 };
 
 exports.login = (req, res, next) => {
-  const email = req.body.email.toLowerCase();
+  const username = req.body.username.toLowerCase();
   const password = req.body.password;
   let loadedUser;
-  User.findOne({ email: email })
+  User.findOne({ username: username })
     .then(user => {
       if (!user) {
-        const error = new Error('A user with this email could not be found.');
+        const error = new Error('A user with this username could not be found.');
         error.statusCode = 401;
         throw error;
       }
@@ -89,13 +90,17 @@ exports.login = (req, res, next) => {
       }
       const token = jwt.sign(
         {
-          email: loadedUser.email,
+          username: loadedUser.username,
           userId: loadedUser._id.toString()
         },
         'longsecretstring',
         { expiresIn: '1h' }
       );
-      res.status(200).json({ token: token, userId: loadedUser._id.toString() });
+      res.status(200).json({ 
+        token: token, 
+        userId: loadedUser._id.toString(),
+        username: loadedUser.username
+      });
     })
     .catch(err => {
       if (!err.statusCode) {
@@ -119,11 +124,11 @@ exports.deleteUser = (req, res) => {
 }
 
 // exports.forgotPassword = (req, res) => {
-//   const email = req.body.email
-//   User.findOne({email: email})
+//   const username = req.body.username
+//   User.findOne({username: username})
 //   .then(user => {
 //     if(!user) {
-//       console.log("Email does not match existing user")
+//       console.log("username does not match existing user")
 //       res.json({auth: false})
 //     }
 //     res.status(200).json({auth: true})

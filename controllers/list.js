@@ -103,5 +103,21 @@ exports.postUpdateListOrder = (req, res) => {
     .catch( err => console.log(err));
 };
 
+exports.saveList = (req, res) => {
+    const listId = req.body.listId
+    const items = req.body.items
 
+
+    List.findById(listId)
+    .then( doc => {
+        doc.listItems = items;
+        return doc.save();
+    })
+    .then( doc => {
+        console.log(doc)
+        res.status(200).json({list: doc});
+    })
+    .catch( err => console.log(err))
+    
+}
     
